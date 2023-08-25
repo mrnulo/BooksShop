@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Book List</h2>
+  <style>
+    .book-item {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .book-details {
+      margin-bottom: 10px;
+    }
+
+    .book-title {
+      font-weight: bold;
+    }
+
+    .book-actions {
+      margin-top: 5px;
+    }
+
+    .empty-message {
+      color: #999;
+    }
+  </style>
+  <ul class="book-list">
+  {% if messages %}
+    <div class="messages">
+    {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+        {{ message }}
+      </div>
+    {% endfor %}
+    </div>
+  {% endif %}
+    {% for book in books %}
+      <li class="book-item">
+        <div class="book-details">
+          <div class="book-title">{{ book.title }}</div>
+          <div class="book-author">{{ book.author }}</div>
+        </div>
+        {% if book.author.user == request.user %}
+          <div class="book-actions">
+            <a href="{% url 'edit_book' book.id %}">Edit</a> |
+            <a href="{% url 'remove_book' book.id %}">Remove</a>
+          </div>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li class="empty-message">No books available.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'add_book' %}">Add Book</a>
+{% endblock %}
