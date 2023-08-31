@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Book List</h2>
+  <style>
+    .book-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #f8f8f8;
+    }
+
+    .book-image {
+      width: 150px;
+      height: 225px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-details {
+      margin-left: 20px;
+    }
+
+    .book-title {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .book-author {
+      color: #777;
+      margin-bottom: 10px;
+    }
+
+    .book-actions {
+      margin-top: 5px;
+    }
+
+    .empty-message {
+      color: #777;
+      margin-top: 20px;
+    }
+
+    .add-book-link {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #007bff;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-book-link:hover {
+      background-color: #0056b3;
+    }
+
+    .edit-book-button,
+    .remove-book-button {
+      display: inline-block;
+      margin-left: 10px;
+      padding: 8px 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .edit-book-button:hover,
+    .remove-book-button:hover {
+      background-color: #b3b3b3;
+    }
+    .search-form {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+    .search-form input[type="text"] {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+  
+    .search-form button[type="submit"] {
+      padding: 8px 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+  
+    .search-form button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  <form method="GET" action="{% url 'book_list' %}" class="search-form">
+    {% csrf_token %}
+    <div class="search-input">
+      {{ form.search_input }}
+      <button type="submit">Search</button>
+    </div>
+  </form>
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  <ul class="book-list">
+    {% for book in books %}
+      <li class="book-item">
+        {% if book.image %}
+          <img src="{{ book.image.url }}" alt="Book Image" class="book-image">
+        {% else %}
+          <div class="book-image">
+            <p>No image available</p>
+          </div>
+        {% endif %}
+        <div class="book-details">
+          <div class="book-title">{{ book.title }}</div>
+          <div class="book-author">{{ book.author }}</div>
+          {% if book.author.user == request.user %}
+            <div class="book-actions">
+              <a href="{% url 'edit_book' book.id %}" class="edit-book-button">Edit</a>
+              <a href="{% url 'remove_book' book.id %}" class="remove-book-button">Remove</a>
+            </div>
+          {% endif %}
+        </div>
+      </li>
+    {% empty %}
+      <li class="empty-message">No books available.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'add_book' %}" class="add-book-link">Add Book</a>
+{% endblock %}

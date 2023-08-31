@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if messages %}
+<div class="messages">
+{% for message in messages %}
+  <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}">
+    {{ message }}
+  </div>
+{% endfor %}
+</div>
+{% endif %}
+
+<h2>Login</h2>
+<style>
+  .login-form {
+    max-width: 400px;
+    margin-top: 20px;
+  }
+
+  .login-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .login-form input[type="text"],
+  .login-form input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+
+  .login-form button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .login-form button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+</style>
+<form method="post" class="login-form">
+  {% csrf_token %}
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username"><br>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password"><br>
+  <button type="submit">Enter</button>
+</form>
+{% endblock %}

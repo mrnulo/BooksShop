@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Search Results</h2>
+    {% if books %}
+        <p>Showing results for: "{{ search_input }}"</p>
+        <ul>
+            {% for book in books %}
+                <li>{{ book.title }} by {{ book.author }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found for: "{{ search_input }}"</p>
+    {% endif %}
+{% endblock %}
