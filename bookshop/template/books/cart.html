@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h1 class="text-center mb-4">Cart</h1>
+  {% if cart %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in cart|default:"" %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-thumbnail mr-2" height="150" width="150">
+                  <span>{{ book.title }}</span>
+                </div>
+              </td>
+              <td>${{ book.price }}</td>
+              <td>{{ book.quantity }}</td>
+              <td>
+                <a href="{% url 'remove_from_cart' book.id %}" class="btn btn-danger">Remove</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        <tr>
+          <td colspan="4">Total Price:</td>
+          <td>${{ total_price|floatformat:2 }}</td>
+        </tr>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-center">No items in the cart.</p>
+  {% endif %}
+</div>
+{% endblock %}

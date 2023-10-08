@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        .book-img {
+            width: 150px;
+            height: 225px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .no-image {
+            font-style: italic;
+            color: gray;
+        }
+        
+        .book-details {
+            display: flex;
+            align-items: center;
+        }
+        
+        .book-info {
+            margin-left: 20px;
+        }
+    </style>
+    
+    <div class="book-detail">
+        <h1>{{ book.title }}</h1>
+        <p>Click Count: {{ book.click_count }}</p>
+        
+        <div class="book-details">
+            <div class="book-image">
+                {% if book.image %}
+                    <img src="{{ book.image.url }}" alt="{{ book.title }}" class="book-img">
+                {% else %}
+                    <p class="no-image">No image available</p>
+                {% endif %}
+            </div>
+            
+            <div class="book-info">
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Description:</strong> {{ book.description }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

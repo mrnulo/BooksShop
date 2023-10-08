@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Young+Serif&display=swap" rel="stylesheet">
+    <title>{% block title %}Page Title{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        *{
+            font-family: 'Young' , Serif;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 60px;
+        }
+        header {
+            background-color: #343a40;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #fff;
+        }
+        .navbar-nav .nav-item .nav-link {
+            color: #fff;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        footer p {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="/">BookShop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">MyProfile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>  
+    </header>
+
+    <main class="container mt-4">
+        {% block content %}
+        <p>Page Content</p>
+        {% endblock %}
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
